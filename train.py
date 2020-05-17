@@ -157,12 +157,12 @@ def loss_layer(conv, pred, label, bboxes, stride, num_class, iou_loss_thresh, al
     respond_bgd = (1.0 - respond_bbox) * P.cast(max_iou < iou_loss_thresh, 'float32')
 
     # RetinaNet的focal_loss，带上alpha解决不平衡问题。
-    # pos_loss = respond_bbox * (0 - P.log(pred_conf)) * P.pow(1 - pred_conf, gamma) * alpha
-    # neg_loss = respond_bgd  * (0 - P.log(1 - pred_conf)) * P.pow(pred_conf, gamma) * (1 - alpha)
+    # pos_loss = respond_bbox * (0 - P.log(pred_conf + 1e-9)) * P.pow(1 - pred_conf, gamma) * alpha
+    # neg_loss = respond_bgd  * (0 - P.log(1 - pred_conf + 1e-9)) * P.pow(pred_conf, gamma) * (1 - alpha)
 
     # 二值交叉熵损失
-    pos_loss = respond_bbox * (0 - P.log(pred_conf))
-    neg_loss = respond_bgd  * (0 - P.log(1 - pred_conf))
+    pos_loss = respond_bbox * (0 - P.log(pred_conf + 1e-9))
+    neg_loss = respond_bgd  * (0 - P.log(1 - pred_conf + 1e-9))
 
     conf_loss = pos_loss + neg_loss
     # 回顾respond_bgd，某个预测框和某个gt的iou超过iou_loss_thresh，不被当作是反例。在参与“预测的置信位 和 真实置信位 的 二值交叉熵”时，这个框也可能不是正例(label里没标这个框是1的话)。这个框有可能不参与置信度loss的计算。
