@@ -62,7 +62,7 @@ def bbox_ciou(boxes1, boxes2):
     inter_section = P.relu(right_down - left_up)
     inter_area = inter_section[:, :, :, :, 0] * inter_section[:, :, :, :, 1]
     union_area = boxes1_area + boxes2_area - inter_area
-    iou = inter_area / union_area
+    iou = inter_area / (union_area + 1e-9)
 
     # 包围矩形的左上角坐标、右下角坐标，shape 都是 (8, 13, 13, 3, 2)
     enclose_left_up = P.elementwise_min(boxes1_x0y0x1y1[:, :, :, :, :2], boxes2_x0y0x1y1[:, :, :, :, :2])
@@ -75,9 +75,9 @@ def bbox_ciou(boxes1, boxes2):
     # 两矩形中心点距离的平方
     p2 = P.pow(boxes1[:, :, :, :, 0] - boxes2[:, :, :, :, 0], 2) + P.pow(boxes1[:, :, :, :, 1] - boxes2[:, :, :, :, 1], 2)
 
-    # 增加av。分母boxes2[:, :, :, :, 3]可能为0，除0保护放在了数据读取阶段preprocess_true_boxes()。
-    atan1 = P.atan(boxes1[:, :, :, :, 2] / boxes1[:, :, :, :, 3])
-    atan2 = P.atan(boxes2[:, :, :, :, 2] / boxes2[:, :, :, :, 3])
+    # 增加av。
+    atan1 = P.atan(boxes1[:, :, :, :, 2] / (boxes1[:, :, :, :, 3] + 1e-9))
+    atan2 = P.atan(boxes2[:, :, :, :, 2] / (boxes2[:, :, :, :, 3] + 1e-9))
     v = 4.0 * P.pow(atan1 - atan2, 2) / (math.pi ** 2)
     a = v / (1 - iou + v)
 
