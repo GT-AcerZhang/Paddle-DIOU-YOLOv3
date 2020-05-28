@@ -9,11 +9,20 @@
 </p>
 
 ## 传送门
-3款yolov3，总有一款适合你。paddlepaddle版，可以使用百度Tesla V100的算力。Pytorch，学术方面最火的深度学习框架，动态图，不必开sess，调试最方便。Keras，对新手友好的深度学习框架。
 
-Keras兄弟版：https://github.com/miemie2013/Keras-DIOU-YOLOv3
+Keras版YOLOv3: https://github.com/miemie2013/Keras-DIOU-YOLOv3
 
-Pytorch兄弟版：https://github.com/miemie2013/Pytorch-DIOU-YOLOv3
+Pytorch版YOLOv3：https://github.com/miemie2013/Pytorch-DIOU-YOLOv3
+
+PaddlePaddle版YOLOv3：https://github.com/miemie2013/Paddle-DIOU-YOLOv3
+
+PaddlePaddle完美复刻版版yolact: https://github.com/miemie2013/PaddlePaddle_yolact
+
+yolov3魔改成yolact: https://github.com/miemie2013/yolact
+
+Keras版YOLOv4: https://github.com/miemie2013/Keras-YOLOv4
+
+Pytorch版YOLOv4: 制作中
 
 ## 更新日记
 
